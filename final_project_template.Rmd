@@ -23,9 +23,16 @@ In the first paragraph, describe the problem addressed, its significance, and so
 In the second paragraph, explain why your problem is interdisciplinary, what fields can contribute to its understanding, and incorporate background related to what you learned from meeting with faculty/staff.
 
 
+The formation of blood clots in the blood vessels and their migration else where in the body can be prevented by warfarin, an anticoagulant. However, administering warfarin dosage is a difficult and expensive process. The first dose administered is usually 5 mg and the time it takes for the blood to clot is measured. This is called Prothrombin Time(PT) or the International Normalized Ratio(INR). INR is the same as PT but normalized based on a person of the same demographic. The INR value should be prolonged by the warfarin, and based on this measure, the next daily dose will be adjusted. The patient has to stay in the hospital until the INR value is in the normal range for at least 2 repetitions. Studies have shown that warfarin activity can be determined partially by genetic factors. Specifically, the two variants in VKORC1 and CYP2C9, which are genes involved in warfarin response. 
+
+The goal of this project is to apply machine learning approaches to a large publicly avaiable data that integrates clincal information as well as genotypic data. The data consists of 5,700 patients and 67 features and by utilizing computational and statistical methods to successfully predict warfarin dosage, the cost and time of adminstration of warfarin dosage will reduce significantly. 
+
+This project is highly interdisciplinary, as it combined the field of pharmacology, genomics, computer science, statistics, and health care. Integrating knowledge from these disciplines will contribute to the field of precision medicine and will change how health care is practiced by improving the prognosis, diagnosis, and treatment of patients.
+
 ### Methods
 In the first paragraph, describe the data used and general methodological approach. Subsequently, incorporate full R code necessary to retrieve and clean data, and perform analysis. Be sure to include a description of code so that others (including your future self) can understand what you are doing and why.
 
 
 ### Results
 Describe your results and include relevant tables, plots, and code/comments used to obtain them. End with a brief conclusion of your findings related to the question you set out to address.
+
