@@ -6,19 +6,20 @@ output: html_document
 
 ### Overview
 
-The dataset I am working with is from a pharmacogenetic database called [PharmGKB](https://www.pharmgkb.org/download.do?objId=553247439&objCls=SubmissionEvent&ext=.xls), also located in my project [repository](https://github.com/misraj/pharmgkb_project). The goal of the project is to predict warfarin dosage by applying skills and techniques shown in class to this warfarin dataset. I have met with Casey Greene, Struan Grant, and Shana McCormack. After discussing with Struan, who teaches a class in Pharmacogenomics, I was pointed to PharmGKB. He suggested creating a BMI variable based on the height and weight given, and establish an obesity as a variable to see if there is an association. Dr. McCormack added on to this suggestion, by discussing BMI classification. She also provided clinical background behind administering warfarin, and how warfarin dosage is determined by physicians, which is a very tedious and painful procedure. After discussing with Casey Greene, he recommended to check for missingness at the feature level and subject level and determining whether or not we should remove these variables or individuals.
+The dataset I am working with is from a pharmacogenetic database called [PharmGKB](https://www.pharmgkb.org/download.do?objId=553247439&objCls=SubmissionEvent&ext=.xls), which is also located in my project [repository](https://github.com/misraj/pharmgkb_project). The goal of this project is to predict warfarin dosage by applying skills and techniques shown in class to this warfarin dataset. I have met with Dr.Casey Greene, Dr.Struan Grant, and Dr.Shana McCormack. After discussing with Struan, who teaches a class in Pharmacogenomics, I was pointed to PharmGKB. He suggested creating a BMI variable based on the height and weight given, and establish an obesity as a variable to see if there is an association. Dr. McCormack added on to this suggestion, by discussing BMI classification. She also provided clinical background behind administering warfarin, and how warfarin dosage is determined by physicians, which is a very tedious and painful procedure. After discussing with Casey Greene, he recommended to check for missingness at the feature level and subject level and determining whether or not we should remove these variables or individuals.
 
 ### Introduction 
 
 The formation of blood clots in the blood vessels and their migration else where in the body can be prevented by warfarin, an anticoagulant. More than 30 million patients are prescribed warfarin, however, the proper dose of warfarin is difficult to determine because it can vary among patients by a factor of 10. The consequences of taking the incorrect dose can be fatal. The first dose administered is usually 5 mg and the time it takes for the blood to clot is measured. This is called Prothrombin Time(PT) or the International Normalized Ratio(INR). INR is the same as PT but normalized based on a person of the same demographic. The INR value should be prolonged by the warfarin, and based on this measure, the next daily dose will be adjusted. The patient has to stay in the hospital until the INR value is in the normal range for at least 2 repetitions. Studies have shown that warfarin activity can be determined partially by genetic factors. Specifically, the two variants in VKORC1 and CYP2C9, which are genes involved in warfarin response. 
 
-The goal of this project is to predict therapeutic warfarin dosage by applying machine learning approaches to a large publicly avaiable dataset that integrates clincal information as well as genotypic data. The data consists of  approximately 5,700 patients and 63 features and by utilizing computational and statistical methods to successfully predict warfarin dosage, the cost and time of adminstration of warfarin dosage will reduce significantly. This project is highly interdisciplinary, as it combines the field of pharmacology, genomics, computer science, statistics, and health care. Integrating knowledge from these disciplines will contribute to the field of precision medicine and will change how health care is practiced by improving the prognosis, diagnosis, and treatment of patients.
+The goal of this project is to predict therapeutic warfarin dosage by applying machine learning approaches to a large publicly available dataset that integrates clinical information as well as genotypic data. The data consists of approximately 5,700 patients and 63 features and by utilizing computational and statistical methods to successfully predict warfarin dosage, the cost and time of administration of warfarin dosage will reduce significantly. This project is highly interdisciplinary, as it combines the field of pharmacology, genomics, computer science, statistics, and health care. Integrating knowledge from these disciplines will contribute to the field of precision medicine and will change how health care is practiced by improving the prognosis, diagnosis, and treatment of patients.
+
 
 ### Methods
 
 The International Warfarin Pharmacogenomic Consortium comprised of 21 research groups that have contributed clinical and genetic data for 5,700 subjects who were treated with warfarin. Clinical factors that have been previously associated with warfarin therapy and easily accessible were chosen. The data consists of features regarding demographic information, primary indication of warfarin treatment, the stable therapeutic dose of warfarin, the INR achieved with a stable warfarin dose, the desired INR, the use of concomitant medications, the presence of variants of CYP2C9 AND VKORC1. There is also information regarding race, whether or not the patient is a current smoker, and intake of herbal medication, vitamins, and supplement. However, the missing-ness rate for some of these variables was very large, so they were removed. The outcome variable was the stable therapeutic dose of warfarin, defined as the steady-state dose that led to stable anticoagulation levels. The dosage was reported as milligrams per week, which made the task of predicting the outcome very difficult. To simplify the task at hand, the dose (mg/week) was converted to dosage in mg per day.
 
-The data was tested for missinginess rate for features and individuals, in order to see if any variable or subject should be thrown out for lack of succificent data. The initial total of 63 variables were reduced to 27 variables, and individuals that did not have data for all of the 27 variables were thrown out to work on a completed dataset. A body mass index variable was added, given the weight and height of an individual. Linear regression was performed individually for each feature, to determine if there are any features that are significantly associated with therapeutic dosage. Variables were chosen based on their univariate association and their missingness rate. Preliminary work, which can be found in the repository in the script preliminary.R, tested models based on features chosen from missingness rate and univariate analysis separately. Both models performed poorly, however the model based on univariate analysis performed better. As a result, the two methods were combined for the final model for this project.
+The data was tested for missing-ness rate for features and individuals, in order to see if any variable or subject should be thrown out for lack of sufficient data. The initial total of 63 variables were reduced to 27 variables, and individuals that did not have data for all of the 27 variables were thrown out to work on a completed dataset. A body mass index variable was added, given the weight and height of an individual. Linear regression was performed individually for each feature, to determine if there are any features that are significantly associated with therapeutic dosage. Variables were chosen based on their univariate association and their missing-ness rate. Preliminary work, which can be found in the repository in the script preliminary.R, tested models based on features chosen from missing-ness rate and univariate analysis separately. Both models performed poorly, however the model based on univariate analysis performed better. As a result, the two methods were combined for the final model for this project.
 
 ```{r eval = TRUE}
 
@@ -53,7 +54,7 @@ warfarin<-dplyr::select(warfarin,-(Cerivastatin))
 
 ```
 
-Perform univariate associations using linear regression and check for missingness.
+Perform univariate associations using linear regression and check for missing-ness.
 ```{r eval = FALSE}
 #Look at individual univariate associations
 uni_reg <- data.frame(seq(1:V-2),seq(1:V-2))
@@ -110,7 +111,7 @@ miss_subject <- arrange(miss_subject, desc(missingness_subjects))
 
 
 
-The dataset was filtered based on the combined list of significant univariate associations and missingness. The cut off for a signficant association was a p-value of 1e-05. Filtering stopped as soon as we had 500 subject to avoid training and testing on underpowered data. However, there was no power calculation performed for this analysis.
+The dataset was filtered based on the combined list of significant univariate associations and missing-ness. The cut off for a significant association was a p-value of 1e-05. Filtering stopped as soon as we had 500 subjects to avoid training and testing on an underpowered study. However, there was no power calculation performed for this analysis.
 
 ```{r eval = TRUE}
 #Filter dataset based on the combined list of missingness and significant univariate associations
@@ -135,7 +136,7 @@ warfarin1 <- filter(warfarin1, complete.cases(VKORC1.7_QC))
 ```
 
 
- Body mass index (BMI) variable was calculated and classified based on the classification reported by the National Heart, Lung, and Blood institute. The new BMI variable was added to the filtered warfarin dataset. 
+Body mass index (BMI) variable was calculated and classified based on the classification reported by the National Heart, Lung, and Blood Institute. The new BMI variable was added to the filtered warfarin dataset. 
  
 ```{r eval = TRUE}
 #Calculate BMI data
@@ -170,6 +171,7 @@ warfarin1 <- mutate(warfarin1, bmi = factor(bmi, levels=c(1, 2,3,4,5,6), labels=
 ```
 
 Create the final, clean dataset.
+
 ```{r eval = TRUE}
 
 #Change variables to factors, (this was causing errors when contrasting varriables in the linear regression)
@@ -189,11 +191,11 @@ warfarin1 <- mutate(warfarin1, Amiodarone = factor(Amiodarone, levels=c(0, 1), l
 
 ```
 
-A few exploratory analysis was done to answer a few questions regarding some of the clinical and genetic data of the new set. For example, are there more males than females? What is the age, height, weight, bmi distribution? A handful of variables were explored and bar graphs are shown below.
+A few exploratory analysis was done to answer a few questions regarding some of the clinical and genetic data of the new set. For example, are there more males than females? What is the age, height, weight, BMI distribution? A handful of variables were explored and bar graphs are shown below.
 
 ### Results
 
-There are more males than females in this dataset. There is a high proportion of Asian subjects, (contrary to the originial set which consists mainly of caucasians). Most of the subjects were treated at site 4. Majority of the subjects were between ages 50 to 70. A very small number of subjects were underweight and extremely obese. The height was normally distributed and most subjects did not take the antiarrhythmic drug amiodarone.
+There are more males than females in this dataset. There is a high proportion of Asian subjects, (contrary to the original set which consists mainly of Caucasians). Most of the subjects were treated at site 4. Majority of the subjects were between ages 50 to 70. A very small number of subjects were underweight and extremely obese. The height was normally distributed and most subjects did not take the antiarrhythmic drug amiodarone.
 
 ```{r eval = TRUE}
 #Exploratory analysis
@@ -208,7 +210,7 @@ ggplot(warfarin1, aes(x = Height)) + geom_bar(stat = "bin")
 ggplot(warfarin1, aes(x = Amiodarone)) + geom_bar(stat = "bin")
 ```
 
-The VKORC1 and CYP2C9 variants were explored in the data set to see the genotype distribution. An interesting variant to point out is the VKORC1 variant at rs9923231. At this particular position, majority of individuals in the dataset had both alleles A. Those that carry the A allele particular, should be adminstered smaller dosage (known from previous studies). The bar graph below shows the number of patients that have each genotype, and denoted by various shades of blue, we see that in fact those with both allele A are administered smaller dosage. 
+The VKORC1 and CYP2C9 variants were explored in the data set to see the genotype distribution. An interesting variant to point out is the VKORC1 variant at rs9923231. At this particular position, majority of individuals in the dataset had both alleles A. Those that carry the A allele particular, should be administered smaller dosage (known from previous studies). The bar graph below shows the number of patients that have each genotype, and denoted by various shades of blue, we see that in fact those with both allele A are administered smaller dosage.
 
 ```{r eval = TRUE}
 #Looking at the variant rs9923231
@@ -241,7 +243,7 @@ warf.test1 <- dplyr::select(warf.test1, -(Sample.ID))
 warf.train1 <- dplyr::select(warf.train1, -(Sample.ID))
 ```
 
-Stepwise regression was performed on the training set to implement more feature selection for the final model.
+Stepwise regression was performed on the training set to implement feature selection for the final model.
 
 ```{r eval = TRUE}
 null = lm(dose.train1 ~ 1, data = warf.train1) #first variable
@@ -252,7 +254,7 @@ full = lm(dose.train1 ~ ., data = warf.train1) #all variables
 
 ```
 
-The new model based on stepwise regression was tested on the training set, and on the validation set. After running the stepwise regression several times, different models were reported to be the best each time. For this project, I am reporting the best model without BMI variable and with BMI variable (based on AIC/BIC reported).Note that these models may be inconsistent with the output of the stepwise command reported above because it changes everytime the function is implemented. The first model consisted of features including the VKORC1 variant rs9934438, a variable considering all variants of Cyp2C9, a variable for CYP2C9 variant rs1057910, age, weight, site, whether or not the patient takes amiodarone, and whether or not they reached stable dose. The second model included the same features except, instead of weight, BMI was included in the model as well as gender instead of whether or not subjects reached a stable dose, and the variants rs9934438 and rs9923231 in the VKORC1 gene, and Cyp2C9 ( variant at any of the positions they genotyped). 
+The new model based on stepwise regression was tested on the training set, and on the validation set. After running the stepwise regression several times, different models were reported to be the best each time. For this project, I am reporting the best model without BMI variable and with BMI variable (based on AIC/BIC reported). Note that these models may be inconsistent with the output of the stepwise command reported above because the outcome changes slightly every time the function is implemented. The first model consisted of features including the VKORC1 variant rs9934438, a variable considering all variants of Cyp2C9, a variable for CYP2C9 variant rs1057910, age, weight, site, whether or not the patient takes amiodarone, and whether or not they reached stable dose. The second model included the same features except, instead of weight, BMI was included in the model as well as gender instead of whether or not subjects reached a stable dose, the variants rs9934438 and rs9923231 in the VKORC1 gene, and Cyp2C9 (variant at any of the positions they genotyped). 
 
 Evaluation on the training set for model 1, which does not include the BMI variable.
 ```{r eval = TRUE}
@@ -328,8 +330,6 @@ ggplot(data=dose1.t, aes(x= Label)) + geom_bar()
 ```
 
 Evaluation on the training set for model 2, which includes the BMI variable.
-
-
 ```{r eval = TRUE}
 ###EVALUATION for MODEL 2 (WITH BMI VARIABLES) ON TRAINING###
 warf_train1_reg <- lm(dose.train1 ~ VKORC1.3_consensus + Age + bmi + Cyp2C9 + Amiodarone + Site + VKORC1.1_QC + Gender, data= warf.train1)
@@ -397,7 +397,8 @@ smoothScatter(x= dose1.t$Predicted, y =  dose1.t$True, xlab = "Predicted", ylab 
 ggplot(data=dose1.t, aes(x= Label)) + geom_bar()
 
 ```
-As a sanity check, I was curious to see the same pattern regarding the variant rs9923231, to see if we are seeing the same (expected) pattern. The bar graph shown below is consistent with what we saw in the explatory analysis, which was those who have both A alleles require smaller warfarin dosage. 
+
+As a sanity check, I was curious to see the same pattern regarding the variant rs9923231, to see if we are seeing the same (expected) pattern. The bar graph shown below is consistent with what we saw in the exploratory analysis, which was those who have both A alleles require smaller warfarin dosage.
 
 ```{r eval = TRUE}
 warf = data.frame(warf.test1,best.warf_test1_reg)
@@ -406,8 +407,9 @@ ggplot(warf, aes(x = VKORC1.1_consensus,group =best.warf_test1_reg , colour  = b
 
 ###Discussion
 
-The first model, which did not include the BMI variable, performed better on the training and testing set compared to the second model which included the BMI varable. The second model overfit the data, and did not perform as well as the first model on the testing set. These results are not strong enough evidence to suggest that BMI should not be in the model because the step regression function does not test all possible subsets of the variables, only a few. It also depends on the order of how the variables are added to the model.
+The first model, which did not include the BMI variable, performed better on the training and testing set compared to the second model which included the BMI variable. The second model overfit the data, and did not perform as well as the first model on the testing set. These results are not strong enough evidence to suggest that BMI should not be in the model because the step regression function does not test all possible subsets of the variables, only a few. It also depends on the order of how the variables are added to the model.
 
 ###Conclusion
-Though prediciting warfarin dosage is a difficult task, there are many clinical and genotypic variables that are associated with warfarin dosage. The models implemented in this project performed surprisingly well given the limitations of the feature selection process. Some of these limitations include removing important variables due to small amount of data present and the ambiguity of the step function. Unfortunately, because of time constraints, a proper 10-fold cross-validation was not implemented and not all possible models were tested. These would be the immediate next steps to follow up on this project. Specifically, cross validation would avoid the overfitting we saw in model 2. Another analysis that can be implemented on this particular dataset is 10-means clustering, and I am interested to see how this learner compares to using a linear regression. Investigating models that accurately predicts warfarin dosage will ultimately improve the adminstration of warfarin in health care systems, as well as save time, reduce cost and improve treatment/prevention of heart attacks, strokes and blood clots. 
+Though predicting warfarin dosage is a difficult task, there are many clinical and genotypic variables that are associated with warfarin dosage. The models implemented in this project performed surprisingly well given the limitations of the feature selection process. Some of these limitations include removing important variables due to small amount of data present and the ambiguity of the step function. Unfortunately, because of time constraints, a proper 10-fold cross-validation was not implemented and not all possible models were tested. These would be the immediate next steps to follow up on this project. Specifically, cross validation would avoid the overfitting we saw in model 2. Another analysis that can be implemented on this particular dataset is 10-means clustering, and I am interested to see how this learner compares to using a linear regression. Investigating models that accurately predicts warfarin dosage will ultimately improve the administration of warfarin in health care systems, as well as save time, reduce cost and improve treatment/prevention of heart attacks, strokes and blood clots.
+
 
